@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Squash Camp Attendance Tracker</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Lucide React icons as inline SVG components
+        const Calendar = () => React.createElement('svg', {
+            width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round'
+        }, [
+            React.createElement('rect', { key: 1, x: 3, y: 4, width: 18, height: 18, rx: 2, ry: 2 }),
+            React.createElement('line', { key: 2, x1: 16, y1: 2, x2: 16, y2: 6 }),
+            React.createElement('line', { key: 3, x1: 8, y1: 2, x2: 8, y2: 6 }),
+            React.createElement('line', { key: 4, x1: 3, y1: 10, x2: 21, y2: 10 })
+        ]);
+
+        const Users = () => React.createElement('svg', {
+            width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round'
+        }, [
+            React.createElement('path', { key: 1, d: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2' }),
+            React.createElement('circle', { key: 2, cx: 9, cy: 7, r: 4 }),
+            React.createElement('path', { key: 3, d: 'm22 21-3-3m0 0a5 5 0 1 0-7-7 5 5 0 0 0 7 7' })
+        ]);
+
+        const CheckCircle = () => React.createElement('svg', {
+            width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round'
+        }, [
+            React.createElement('path', { key: 1, d: 'm9 12 2 2 4-4' }),
+            React.createElement('circle', { key: 2, cx: 12, cy: 12, r: 10 })
+        ]);
+
+        const XCircle = () => React.createElement('svg', {
+            width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round'
+        }, [
+            React.createElement('circle', { key: 1, cx: 12, cy: 12, r: 10 }),
+            React.createElement('path', { key: 2, d: 'm15 9-6 6' }),
+            React.createElement('path', { key: 3, d: 'm9 9 6 6' })
+        ]);
+
+        const Plus = () => React.createElement('svg', {
+            width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round'
+        }, [
+            React.createElement('path', { key: 1, d: 'M5 12h14' }),
+            React.createElement('path', { key: 2, d: 'M12 5v14' })
+        ]);
+
+        const Edit2 = () => React.createElement('svg', {
+            width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round'
+        }, [
+            React.createElement('path', { key: 1, d: 'M7 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1' }),
+            React.createElement('path', { key: 2, d: 'M20.385 6.585a2.1 2.1 0 0 0-2.97-2.97L9 12v3h3l8.385-8.415Z' }),
+            React.createElement('path', { key: 3, d: 'M16 5l3 3' })
+        ]);
+
+        const Trash2 = () => React.createElement('svg', {
+            width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round'
+        }, [
+            React.createElement('path', { key: 1, d: 'm3 6 3 0' }),
+            React.createElement('path', { key: 2, d: 'M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2' }),
+            React.createElement('path', { key: 3, d: 'M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6' }),
+            React.createElement('path', { key: 4, d: 'M10 11v6' }),
+            React.createElement('path', { key: 5, d: 'M14 11v6' })
+        ]);
+
+        const Download = () => React.createElement('svg', {
+            width: 24, height: 24, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round'
+        }, [
+            React.createElement('path', { key: 1, d: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4' }),
+            React.createElement('polyline', { key: 2, points: '7,10 12,15 17,10' }),
+            React.createElement('line', { key: 3, x1: 12, y1: 15, x2: 12, y2: 3 })
+        ]);
+    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const SquashAttendanceApp = () => {
+          const [players, setPlayers] = useState(() => {
+            const saved = localStorage.getItem('squash-players');
+            return saved ? JSON.parse(saved) : [
+              { id: 1, name: 'Alex Johnson', level: 'Beginner', phone: '', email: '', photo: '' },
+              { id: 2, name: 'Maria Silva', level: 'Intermediate', phone: '', email: '', photo: '' },
+              { id: 3, name: 'Tom Wilson', level: 'Advanced', phone: '', email: '', photo: '' },
+              { id: 4, name: 'Sarah Chen', level: 'Beginner', phone: '', email: '', photo: '' },
+              { id: 5, name: 'David Brown', level: 'Intermediate', phone: '', email: '', photo: '' }
+            ];
+          });
+
+          const [attendance, setAttendance] = useState(() => {
+            const saved = localStorage.getItem('squash-attendance');
+            return saved ? JSON.parse(saved) : {};
+          });
+
+          const [currentDate, setCurrentDate] = useState(new Date().toISOString().split('T')[0]);
+          const [newPlayerName, setNewPlayerName] = useState('');
+          const [newPlayerLevel, setNewPlayerLevel] = useState('Beginner');
+          const [newPlayerPhone, setNewPlayerPhone] = useState('');
+          const [newPlayerEmail, setNewPlayerEmail] = useState('');
+          const [newPlayerPhoto, setNewPlayerPhoto] = useState('');
+          const [showAddPlayer, setShowAddPlayer] = useState(false);
+          const [editingPlayer, setEditingPlayer] = useState(null);
+
+          // Save to localStorage whenever data changes
+          useEffect(() => {
+            localStorage.setItem('squash-players', JSON.stringify(players));
+          }, [players]);
+
+          useEffect(() => {
+            localStorage.setItem('squash-attendance', JSON.stringify(attendance));
+          }, [attendance]);
+
+          // Initialize attendance for current date
+          useEffect(() => {
+            if (!attendance[currentDate]) {
+              setAttendance(prev => ({
+                ...prev,
+                [currentDate]: {}
+              }));
+            }
+          }, [currentDate, attendance]);
+
+          const toggleAttendance = (playerId) => {
+            setAttendance(prev => ({
+              ...prev,
+              [currentDate]: {
+                ...prev[currentDate],
+                [playerId]: !prev[currentDate]?.[playerId]
+              }
+            }));
+          };
+
+          const addPlayer = () => {
+            if (newPlayerName.trim()) {
+              const newPlayer = {
+                id: Date.now(),
+                name: newPlayerName.trim(),
+                level: newPlayerLevel,
+                phone: newPlayerPhone.trim(),
+                email: newPlayerEmail.trim(),
+                photo: newPlayerPhoto
+              };
+              setPlayers(prev => [...prev, newPlayer]);
+              setNewPlayerName('');
+              setNewPlayerPhone('');
+              setNewPlayerEmail('');
+              setNewPlayerPhoto('');
+              setShowAddPlayer(false);
+            }
+          };
+
+          const deletePlayer = (playerId) => {
+            setPlayers(prev => prev.filter(p => p.id !== playerId));
+            // Remove from all attendance records
+            setAttendance(prev => {
+              const newAttendance = { ...prev };
+              Object.keys(newAttendance).forEach(date => {
+                delete newAttendance[date][playerId];
+              });
+              return newAttendance;
+            });
+          };
+
+          const handlePhotoUpload = (e, isEditing = false, playerId = null) => {
+            const file = e.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                if (isEditing) {
+                  // For editing, we'll handle this in the update function
+                  document.getElementById(`edit-photo-input-${playerId}`).dataset.photoData = e.target.result;
+                } else {
+                  setNewPlayerPhoto(e.target.result);
+                }
+              };
+              reader.readAsDataURL(file);
+            }
+          };
+
+          const updatePlayer = (playerId, newName, newLevel, newPhone, newEmail, newPhoto) => {
+            setPlayers(prev => prev.map(p => 
+              p.id === playerId ? { ...p, name: newName, level: newLevel, phone: newPhone, email: newEmail, photo: newPhoto } : p
+            ));
+            setEditingPlayer(null);
+          };
+
+          const getTodayStats = () => {
+            const todayAttendance = attendance[currentDate] || {};
+            const present = Object.values(todayAttendance).filter(Boolean).length;
+            const total = players.length;
+            return { present, total, percentage: total > 0 ? Math.round((present / total) * 100) : 0 };
+          };
+
+          const exportData = () => {
+            const data = {
+              players,
+              attendance,
+              exportDate: new Date().toISOString()
+            };
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `squash-attendance-${currentDate}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+          };
+
+          const clearAllData = () => {
+            if (confirm('Are you sure you want to clear all data? This cannot be undone.')) {
+              localStorage.removeItem('squash-players');
+              localStorage.removeItem('squash-attendance');
+              window.location.reload();
+            }
+          };
+
+          const stats = getTodayStats();
+
+          return (
+            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 p-4">
+              <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+                {/* Header */}
+                <div className="bg-gradient-to-r from-blue-600 to-green-600 text-white p-6">
+                  <h1 className="text-2xl font-bold flex items-center gap-2">
+                    <Calendar className="h-6 w-6" />
+                    Squash Camp Attendance
+                  </h1>
+                  <input
+                    type="date"
+                    value={currentDate}
+                    onChange={(e) => setCurrentDate(e.target.value)}
+                    className="mt-3 px-3 py-2 rounded-lg text-gray-800 text-sm w-full"
+                  />
+                </div>
+
+                {/* Stats */}
+                <div className="p-4 bg-gray-50 border-b">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Users className="h-5 w-5 text-blue-600" />
+                      <span className="font-semibold text-gray-700">
+                        {stats.present}/{stats.total} Present ({stats.percentage}%)
+                      </span>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={exportData}
+                        className="text-blue-600 hover:text-blue-800 p-1"
+                        title="Export Data"
+                      >
+                        <Download className="h-5 w-5" />
+                      </button>
+                      <button
+                        onClick={clearAllData}
+                        className="text-red-600 hover:text-red-800 p-1 text-xs"
+                        title="Clear All Data"
+                      >
+                        Clear
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Player List */}
+                <div className="p-4 space-y-3 max-h-96 overflow-y-auto">
+                  {players.map(player => (
+                    <div key={player.id} className="bg-gray-50 rounded-lg p-3">
+                      {editingPlayer === player.id ? (
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                              {player.photo ? (
+                                <img src={player.photo} alt={player.name} className="w-full h-full object-cover" />
+                              ) : (
+                                <Users className="h-6 w-6 text-gray-400" />
+                              )}
+                            </div>
+                            <div className="flex-1">
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => handlePhotoUpload(e, true, player.id)}
+                                className="hidden"
+                                id={`edit-photo-input-${player.id}`}
+                                data-photo-data={player.photo}
+                              />
+                              <label
+                                htmlFor={`edit-photo-input-${player.id}`}
+                                className="text-sm text-blue-600 cursor-pointer hover:text-blue-800"
+                              >
+                                Change Photo
+                              </label>
+                            </div>
+                          </div>
+                          <input
+                            type="text"
+                            defaultValue={player.name}
+                            placeholder="Player Name"
+                            className="w-full px-3 py-2 border rounded-lg text-sm"
+                            id={`edit-name-${player.id}`}
+                          />
+                          <select
+                            defaultValue={player.level}
+                            className="w-full px-3 py-2 border rounded-lg text-sm"
+                            id={`edit-level-${player.id}`}
+                          >
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                          </select>
+                          <input
+                            type="tel"
+                            defaultValue={player.phone}
+                            placeholder="Phone Number"
+                            className="w-full px-3 py-2 border rounded-lg text-sm"
+                            id={`edit-phone-${player.id}`}
+                          />
+                          <input
+                            type="email"
+                            defaultValue={player.email}
+                            placeholder="Email Address"
+                            className="w-full px-3 py-2 border rounded-lg text-sm"
+                            id={`edit-email-${player.id}`}
+                          />
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => {
+                                const newName = document.getElementById(`edit-name-${player.id}`).value;
+                                const newLevel = document.getElementById(`edit-level-${player.id}`).value;
+                                const newPhone = document.getElementById(`edit-phone-${player.id}`).value;
+                                const newEmail = document.getElementById(`edit-email-${player.id}`).value;
+                                const newPhoto = document.getElementById(`edit-photo-input-${player.id}`).dataset.photoData || player.photo;
+                                updatePlayer(player.id, newName, newLevel, newPhone, newEmail, newPhoto);
+                              }}
+                              className="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm"
+                            >
+                              Save
+                            </button>
+                            <button
+                              onClick={() => setEditingPlayer(null)}
+                              className="flex-1 bg-gray-400 text-white py-2 rounded-lg text-sm"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
+                            {player.photo ? (
+                              <img src={player.photo} alt={player.name} className="w-full h-full object-cover" />
+                            ) : (
+                              <Users className="h-6 w-6 text-gray-400" />
+                            )}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between">
+                              <div className="flex-1 min-w-0">
+                                <span className="font-semibold text-gray-800 block truncate">{player.name}</span>
+                                <span className="text-sm text-gray-600">{player.level}</span>
+                                {player.phone && (
+                                  <div className="text-xs text-gray-500 truncate">{player.phone}</div>
+                                )}
+                                {player.email && (
+                                  <div className="text-xs text-gray-500 truncate">{player.email}</div>
+                                )}
+                              </div>
+                              <div className="flex gap-1 ml-2">
+                                <button
+                                  onClick={() => setEditingPlayer(player.id)}
+                                  className="text-gray-500 hover:text-blue-600 p-1"
+                                >
+                                  <Edit2 className="h-4 w-4" />
+                                </button>
+                                <button
+                                  onClick={() => deletePlayer(player.id)}
+                                  className="text-gray-500 hover:text-red-600 p-1"
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => toggleAttendance(player.id)}
+                            className={`ml-2 p-2 rounded-full transition-colors flex-shrink-0 ${
+                              attendance[currentDate]?.[player.id]
+                                ? 'bg-green-100 text-green-600'
+                                : 'bg-red-100 text-red-600'
+                            }`}
+                          >
+                            {attendance[currentDate]?.[player.id] ? (
+                              <CheckCircle className="h-6 w-6" />
+                            ) : (
+                              <XCircle className="h-6 w-6" />
+                            )}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Add Player */}
+                <div className="p-4 border-t">
+                  {showAddPlayer ? (
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                          {newPlayerPhoto ? (
+                            <img src={newPlayerPhoto} alt="New player" className="w-full h-full object-cover" />
+                          ) : (
+                            <Users className="h-8 w-8 text-gray-400" />
+                          )}
+                        </div>
+                        <div className="flex-1">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => handlePhotoUpload(e)}
+                            className="hidden"
+                            id="new-player-photo"
+                          />
+                          <label
+                            htmlFor="new-player-photo"
+                            className="text-sm text-blue-600 cursor-pointer hover:text-blue-800"
+                          >
+                            Add Photo
+                          </label>
+                        </div>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Player Name"
+                        value={newPlayerName}
+                        onChange={(e) => setNewPlayerName(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                      />
+                      <select
+                        value={newPlayerLevel}
+                        onChange={(e) => setNewPlayerLevel(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                      >
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                      </select>
+                      <input
+                        type="tel"
+                        placeholder="Phone Number"
+                        value={newPlayerPhone}
+                        onChange={(e) => setNewPlayerPhone(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                      />
+                      <input
+                        type="email"
+                        placeholder="Email Address"
+                        value={newPlayerEmail}
+                        onChange={(e) => setNewPlayerEmail(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                      />
+                      <div className="flex gap-2">
+                        <button
+                          onClick={addPlayer}
+                          className="flex-1 bg-blue-600 text-white py-2 rounded-lg font-semibold"
+                        >
+                          Add Player
+                        </button>
+                        <button
+                          onClick={() => {
+                            setShowAddPlayer(false);
+                            setNewPlayerName('');
+                            setNewPlayerPhone('');
+                            setNewPlayerEmail('');
+                            setNewPlayerPhoto('');
+                          }}
+                          className="flex-1 bg-gray-400 text-white py-2 rounded-lg font-semibold"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setShowAddPlayer(true)}
+                      className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-blue-700 transition-colors"
+                    >
+                      <Plus className="h-5 w-5" />
+                      Add New Player
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        };
+
+        ReactDOM.render(<SquashAttendanceApp />, document.getElementById('root'));
+    </script>
+</body>
+</html>
