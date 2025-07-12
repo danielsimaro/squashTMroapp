@@ -1,8 +1,17 @@
 {
-  "players": [],
+  "players": [
+    {
+      "id": 1752351298176,
+      "name": "Test1",
+      "level": "Beginner",
+      "phone": "test",
+      "email": "test",
+      "photo": ""
+    }
+  ],
   "attendance": {
     "2025-07-12": {}
   },
-  "lastModified": 1752351290404,
+  "lastModified": 1752351299178,
   "version": "1.0"
 }
