@@ -44,9 +44,11 @@
   "attendance": {
     "2025-07-12": {
       "1": true,
-      "2": true
+      "2": true,
+      "3": true,
+      "4": true
     }
   },
-  "lastModified": 1752351539528,
+  "lastModified": 1752351550014,
   "version": "1.0"
 }
