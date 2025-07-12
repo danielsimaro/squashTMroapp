@@ -41,7 +41,12 @@
       "photo": ""
     }
   ],
-  "attendance": {},
-  "lastModified": 1752351512478,
+  "attendance": {
+    "2025-07-12": {
+      "1": true,
+      "2": true
+    }
+  },
+  "lastModified": 1752351539528,
   "version": "1.0"
 }
