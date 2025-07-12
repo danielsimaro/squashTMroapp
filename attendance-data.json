@@ -1,46 +1,8 @@
 {
-  "players": [
-    {
-      "id": 1,
-      "name": "Alex Johnson",
-      "level": "Beginner",
-      "phone": "",
-      "email": "",
-      "photo": ""
-    },
-    {
-      "id": 2,
-      "name": "Maria Silva",
-      "level": "Intermediate",
-      "phone": "",
-      "email": "",
-      "photo": ""
-    },
-    {
-      "id": 3,
-      "name": "Tom Wilson",
-      "level": "Advanced",
-      "phone": "",
-      "email": "",
-      "photo": ""
-    },
-    {
-      "id": 1752348062287,
-      "name": "Test",
-      "level": "Beginner",
-      "phone": "",
-      "email": "",
-      "photo": ""
-    }
-  ],
+  "players": [],
   "attendance": {
-    "2025-07-12": {
-      "1": true,
-      "2": true,
-      "3": true,
-      "1752348062287": true
-    }
+    "2025-07-12": {}
   },
-  "lastModified": 1752351281826,
+  "lastModified": 1752351290404,
   "version": "1.0"
 }
