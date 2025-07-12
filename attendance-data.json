@@ -15,11 +15,19 @@
       "phone": "test",
       "email": "test",
       "photo": ""
+    },
+    {
+      "id": 1752351310167,
+      "name": "test3",
+      "level": "Beginner",
+      "phone": "test",
+      "email": "test",
+      "photo": ""
     }
   ],
   "attendance": {
     "2025-07-12": {}
   },
-  "lastModified": 1752351304433,
+  "lastModified": 1752351311169,
   "version": "1.0"
 }
