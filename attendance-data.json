@@ -23,11 +23,19 @@
       "phone": "test",
       "email": "test",
       "photo": ""
+    },
+    {
+      "id": 1752351386191,
+      "name": "Test4",
+      "level": "Beginner",
+      "phone": "0744338233",
+      "email": "test@yahoo.com",
+      "photo": ""
     }
   ],
   "attendance": {
     "2025-07-12": {}
   },
-  "lastModified": 1752351366956,
+  "lastModified": 1752351387195,
   "version": "1.0"
 }
