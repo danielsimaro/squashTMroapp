@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prezenta Scoala de Squash in Oras 2025 </title>
+    <title>Prezenta Scoala de Squash in Oras 2025</title>
     <style>
         * {
             margin: 0;
@@ -39,6 +39,35 @@
             margin-bottom: 1rem;
         }
         
+        .sync-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        
+        .sync-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ef4444;
+        }
+        
+        .sync-indicator.synced {
+            background: #22c55e;
+        }
+        
+        .sync-indicator.syncing {
+            background: #f59e0b;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
         .date-input {
             width: 100%;
             padding: 0.75rem;
@@ -61,18 +90,67 @@
             color: #374151;
         }
         
-        .backup-btn, .export-btn {
+        .settings-btn {
             background: none;
             border: none;
             color: #2563eb;
             padding: 0.5rem;
             border-radius: 4px;
             cursor: pointer;
-            margin-left: 0.5rem;
+            font-size: 1.2rem;
         }
         
-        .backup-btn:hover, .export-btn:hover {
+        .settings-btn:hover {
             background: #eff6ff;
+        }
+        
+        .settings-panel {
+            display: none;
+            padding: 1rem;
+            background: #eff6ff;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .settings-panel.active {
+            display: block;
+        }
+        
+        .settings-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.25rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.875rem;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .help-text {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
         }
         
         .player-list {
@@ -86,6 +164,9 @@
             border-radius: 8px;
             padding: 1rem;
             margin-bottom: 0.75rem;
+        }
+        
+        .player-main {
             display: flex;
             align-items: center;
             gap: 1rem;
@@ -147,7 +228,7 @@
             padding: 0.25rem;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 0.875rem;
+            font-size: 1rem;
         }
         
         .edit-btn {
@@ -166,12 +247,36 @@
             background: #fef2f2;
         }
         
+        .attendance-btn {
+            width: 48px;
+            height: 48px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.2s;
+        }
+        
+        .present {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+        
+        .absent {
+            background: #fecaca;
+            color: #dc2626;
+        }
+        
         .edit-form {
             display: none;
             padding: 1rem;
             background: white;
             border-radius: 8px;
             margin-top: 0.75rem;
+            border: 1px solid #e5e7eb;
         }
         
         .edit-form.active {
@@ -218,29 +323,6 @@
             background: #1d4ed8;
         }
         
-        .attendance-btn {
-            width: 48px;
-            height: 48px;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            transition: all 0.2s;
-        }
-        
-        .present {
-            background: #dcfce7;
-            color: #16a34a;
-        }
-        
-        .absent {
-            background: #fecaca;
-            color: #dc2626;
-        }
-        
         .add-section {
             padding: 1rem;
             border-top: 1px solid #e5e7eb;
@@ -270,15 +352,6 @@
             display: block;
         }
         
-        .form-input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            margin-bottom: 0.75rem;
-            font-size: 1rem;
-        }
-        
         .form-buttons {
             display: flex;
             gap: 0.5rem;
@@ -306,96 +379,99 @@
             cursor: pointer;
         }
         
-        .backup-panel {
-            display: none;
-            padding: 1rem;
-            background: #eff6ff;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        
-        .backup-panel.active {
-            display: block;
-        }
-        
-        .backup-title {
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 1rem;
-        }
-        
-        .backup-instructions {
-            background: white;
-            padding: 0.75rem;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            color: #6b7280;
-            margin-bottom: 1rem;
-        }
-        
-        .backup-buttons {
-            display: flex;
-            gap: 0.5rem;
-        }
-        
         .status-message {
             background: white;
             padding: 0.75rem;
             border-radius: 6px;
             margin-bottom: 1rem;
             font-size: 0.875rem;
+            border-left: 4px solid #2563eb;
+        }
+        
+        .status-message.error {
+            border-left-color: #dc2626;
+            background: #fef2f2;
+        }
+        
+        .status-message.success {
+            border-left-color: #16a34a;
+            background: #f0fdf4;
         }
         
         .hidden {
             display: none;
         }
+        
+        .setup-required {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem;
+            text-align: center;
+        }
+        
+        .setup-required h3 {
+            color: #92400e;
+            margin-bottom: 0.5rem;
+        }
+        
+        .setup-required p {
+            color: #78350f;
+            font-size: 0.875rem;
+        }
     </style>
 </head>
 <body>
     <div class="app">
-        <!-- Header -->
         <div class="header">
             <h1>📅 Squash Camp Attendance</h1>
+            <div class="sync-status">
+                <div class="sync-indicator" id="syncIndicator"></div>
+                <span id="syncStatus">Not configured</span>
+            </div>
             <input type="date" class="date-input" id="currentDate">
         </div>
         
-        <!-- Stats -->
         <div class="stats">
             <div class="stats-text" id="statsText">0/0 Present (0%)</div>
-            <div>
-                <button class="backup-btn" onclick="toggleBackup()" title="Backup">☁️</button>
-                <button class="export-btn" onclick="exportData()" title="Export">💾</button>
-            </div>
+            <button class="settings-btn" onclick="toggleSettings()" title="Settings">⚙️</button>
         </div>
         
-        <!-- Backup Panel -->
-        <div class="backup-panel" id="backupPanel">
-            <div class="backup-title">☁️ Backup & Sync</div>
-            <div class="status-message hidden" id="statusMessage"></div>
-            <button class="btn-primary" onclick="copyBackupData()" style="width: 100%; margin-bottom: 0.75rem;">
-                Copy Data for GitHub
-            </button>
-            <div class="backup-instructions">
-                <strong>To backup to GitHub:</strong><br>
-                1. Tap "Copy Data"<br>
-                2. Go to your GitHub repo<br>
-                3. Create new file: backup-<span id="todayDate"></span>.json<br>
-                4. Paste and commit
+        <div class="settings-panel" id="settingsPanel">
+            <div class="settings-title">⚙️ GitHub Auto-Sync Settings</div>
+            <div class="form-group">
+                <label class="form-label" for="githubToken">GitHub Personal Access Token</label>
+                <input type="password" class="form-input" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+                <div class="help-text">
+                    Create at: GitHub → Settings → Developer settings → Personal access tokens<br>
+                    Required permissions: repo, public_repo
+                </div>
             </div>
-            <div class="backup-buttons">
-                <label class="btn-primary" style="text-align: center; cursor: pointer;">
-                    Import Backup
-                    <input type="file" accept=".json" onchange="importData(event)" class="hidden">
-                </label>
-                <button class="btn-secondary" onclick="exportData()">Download</button>
+            <div class="form-group">
+                <label class="form-label" for="githubRepo">Repository (username/repo-name)</label>
+                <input type="text" class="form-input" id="githubRepo" placeholder="danielsimaro/squashTMroapp">
+                <div class="help-text">Format: your-username/repository-name</div>
             </div>
+            <div class="form-group">
+                <label class="form-label" for="dataFileName">Data File Name</label>
+                <input type="text" class="form-input" id="dataFileName" value="attendance-data.json">
+                <div class="help-text">File where attendance data will be stored</div>
+            </div>
+            <div class="form-buttons">
+                <button class="btn-primary" onclick="saveSettings()">Save & Test Connection</button>
+                <button class="btn-secondary" onclick="toggleSettings()">Cancel</button>
+            </div>
+            <div class="status-message hidden" id="settingsStatus"></div>
         </div>
         
-        <!-- Player List -->
-        <div class="player-list" id="playerList">
-            <!-- Players will be added here by JavaScript -->
+        <div id="setupRequired" class="setup-required">
+            <h3>🔧 Setup Required</h3>
+            <p>Click the ⚙️ settings button to configure GitHub Auto-Sync</p>
         </div>
         
-        <!-- Add Player Section -->
+        <div class="player-list" id="playerList"></div>
+        
         <div class="add-section">
             <button class="add-player-btn" id="addPlayerBtn" onclick="showAddForm()">
                 ➕ Add New Player
@@ -425,37 +501,273 @@
     </div>
 
     <script>
-        // Global variables
-        let players = [];
-        let attendance = {};
-        let currentDate = new Date().toISOString().split('T')[0];
-        let editingPlayerId = null;
-        let newPlayerPhoto = '';
+        var players = [];
+        var attendance = {};
+        var currentDate = new Date().toISOString().split('T')[0];
+        var editingPlayerId = null;
+        var newPlayerPhoto = '';
+        var syncSettings = {};
+        var isConfigured = false;
+        var lastSyncTime = 0;
+        var syncInProgress = false;
         
-        // Initialize app
         function init() {
-            // Load data from localStorage
-            loadData();
-            
-            // Set current date
+            loadSettings();
+            loadLocalData();
             document.getElementById('currentDate').value = currentDate;
-            document.getElementById('todayDate').textContent = currentDate;
-            
-            // Bind date change event
             document.getElementById('currentDate').addEventListener('change', function(e) {
                 currentDate = e.target.value;
                 updateStats();
+                autoSync();
             });
             
-            // Render initial state
+            if (isConfigured) {
+                document.getElementById('setupRequired').style.display = 'none';
+                syncFromGitHub();
+            } else {
+                updateSyncStatus('Not configured', 'error');
+            }
+            
             renderPlayers();
             updateStats();
+            
+            // Auto-sync every 30 seconds if configured
+            setInterval(function() {
+                if (isConfigured && !syncInProgress) {
+                    autoSync();
+                }
+            }, 30000);
         }
         
-        // Load data from localStorage
-        function loadData() {
+        function loadSettings() {
             try {
-                const savedPlayers = localStorage.getItem('squash-players');
+                var saved = localStorage.getItem('github-sync-settings');
+                if (saved) {
+                    syncSettings = JSON.parse(saved);
+                    isConfigured = syncSettings.token && syncSettings.repo && syncSettings.fileName;
+                    
+                    if (isConfigured) {
+                        document.getElementById('githubToken').value = syncSettings.token;
+                        document.getElementById('githubRepo').value = syncSettings.repo;
+                        document.getElementById('dataFileName').value = syncSettings.fileName;
+                    }
+                }
+            } catch (e) {
+                console.warn('Could not load sync settings');
+            }
+        }
+        
+        function saveSettings() {
+            var token = document.getElementById('githubToken').value.trim();
+            var repo = document.getElementById('githubRepo').value.trim();
+            var fileName = document.getElementById('dataFileName').value.trim();
+            
+            if (!token || !repo || !fileName) {
+                showSettingsStatus('Please fill in all fields', 'error');
+                return;
+            }
+            
+            syncSettings = {
+                token: token,
+                repo: repo,
+                fileName: fileName
+            };
+            
+            localStorage.setItem('github-sync-settings', JSON.stringify(syncSettings));
+            
+            // Test connection
+            testGitHubConnection().then(function(success) {
+                if (success) {
+                    isConfigured = true;
+                    document.getElementById('setupRequired').style.display = 'none';
+                    showSettingsStatus('✅ Connected successfully! Auto-sync enabled.', 'success');
+                    updateSyncStatus('Connected', 'synced');
+                    syncToGitHub(); // Initial sync
+                    setTimeout(function() {
+                        toggleSettings();
+                    }, 2000);
+                } else {
+                    showSettingsStatus('❌ Connection failed. Please check your token and repository.', 'error');
+                }
+            });
+        }
+        
+        function testGitHubConnection() {
+            return new Promise(function(resolve) {
+                fetch('https://api.github.com/repos/' + syncSettings.repo, {
+                    headers: {
+                        'Authorization': 'token ' + syncSettings.token,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                })
+                .then(function(response) {
+                    resolve(response.ok);
+                })
+                .catch(function() {
+                    resolve(false);
+                });
+            });
+        }
+        
+        function syncToGitHub() {
+            if (!isConfigured || syncInProgress) return;
+            
+            syncInProgress = true;
+            updateSyncStatus('Syncing...', 'syncing');
+            
+            var data = {
+                players: players,
+                attendance: attendance,
+                lastModified: Date.now(),
+                version: '1.0'
+            };
+            
+            var content = btoa(JSON.stringify(data, null, 2));
+            
+            // First, try to get the current file to get its SHA
+            fetch('https://api.github.com/repos/' + syncSettings.repo + '/contents/' + syncSettings.fileName, {
+                headers: {
+                    'Authorization': 'token ' + syncSettings.token,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            })
+            .then(function(response) {
+                if (response.ok) {
+                    return response.json();
+                }
+                return null;
+            })
+            .then(function(fileData) {
+                var body = {
+                    message: 'Update attendance data - ' + new Date().toISOString(),
+                    content: content,
+                    branch: 'main'
+                };
+                
+                if (fileData && fileData.sha) {
+                    body.sha = fileData.sha;
+                }
+                
+                return fetch('https://api.github.com/repos/' + syncSettings.repo + '/contents/' + syncSettings.fileName, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': 'token ' + syncSettings.token,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                });
+            })
+            .then(function(response) {
+                syncInProgress = false;
+                if (response.ok) {
+                    lastSyncTime = Date.now();
+                    updateSyncStatus('Synced', 'synced');
+                } else {
+                    updateSyncStatus('Sync failed', 'error');
+                }
+            })
+            .catch(function(error) {
+                syncInProgress = false;
+                updateSyncStatus('Sync error', 'error');
+                console.error('Sync error:', error);
+            });
+        }
+        
+        function syncFromGitHub() {
+            if (!isConfigured || syncInProgress) return;
+            
+            syncInProgress = true;
+            updateSyncStatus('Loading...', 'syncing');
+            
+            fetch('https://api.github.com/repos/' + syncSettings.repo + '/contents/' + syncSettings.fileName, {
+                headers: {
+                    'Authorization': 'token ' + syncSettings.token,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            })
+            .then(function(response) {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('File not found');
+            })
+            .then(function(fileData) {
+                var content = atob(fileData.content.replace(/\s/g, ''));
+                var data = JSON.parse(content);
+                
+                if (data.players && data.attendance) {
+                    // Check if remote data is newer
+                    if (!data.lastModified || data.lastModified > lastSyncTime) {
+                        players = data.players;
+                        attendance = data.attendance;
+                        lastSyncTime = data.lastModified || Date.now();
+                        saveLocalData();
+                        renderPlayers();
+                        updateStats();
+                    }
+                }
+                
+                syncInProgress = false;
+                updateSyncStatus('Synced', 'synced');
+            })
+            .catch(function(error) {
+                syncInProgress = false;
+                // If file doesn't exist, create it
+                if (players.length > 0) {
+                    syncToGitHub();
+                } else {
+                    updateSyncStatus('No data found', 'synced');
+                }
+            });
+        }
+        
+        function autoSync() {
+            if (isConfigured && !syncInProgress) {
+                // Sync from GitHub first, then to GitHub
+                syncFromGitHub();
+                setTimeout(function() {
+                    if (!syncInProgress) {
+                        syncToGitHub();
+                    }
+                }, 1000);
+            }
+        }
+        
+        function updateSyncStatus(message, type) {
+            var indicator = document.getElementById('syncIndicator');
+            var status = document.getElementById('syncStatus');
+            
+            indicator.className = 'sync-indicator';
+            if (type) {
+                indicator.classList.add(type);
+            }
+            
+            status.textContent = message;
+        }
+        
+        function showSettingsStatus(message, type) {
+            var statusEl = document.getElementById('settingsStatus');
+            statusEl.textContent = message;
+            statusEl.className = 'status-message';
+            if (type) {
+                statusEl.classList.add(type);
+            }
+            statusEl.classList.remove('hidden');
+            
+            setTimeout(function() {
+                statusEl.classList.add('hidden');
+            }, 5000);
+        }
+        
+        function toggleSettings() {
+            var panel = document.getElementById('settingsPanel');
+            panel.classList.toggle('active');
+        }
+        
+        function loadLocalData() {
+            try {
+                var savedPlayers = localStorage.getItem('squash-players');
                 players = savedPlayers ? JSON.parse(savedPlayers) : [
                     { id: 1, name: 'Alex Johnson', level: 'Beginner', phone: '', email: '', photo: '' },
                     { id: 2, name: 'Maria Silva', level: 'Intermediate', phone: '', email: '', photo: '' },
@@ -464,123 +776,126 @@
                     { id: 5, name: 'David Brown', level: 'Intermediate', phone: '', email: '', photo: '' }
                 ];
                 
-                const savedAttendance = localStorage.getItem('squash-attendance');
+                var savedAttendance = localStorage.getItem('squash-attendance');
                 attendance = savedAttendance ? JSON.parse(savedAttendance) : {};
             } catch (e) {
-                console.warn('Could not load data from localStorage');
+                console.warn('Could not load local data');
             }
         }
         
-        // Save data to localStorage
-        function saveData() {
+        function saveLocalData() {
             try {
                 localStorage.setItem('squash-players', JSON.stringify(players));
                 localStorage.setItem('squash-attendance', JSON.stringify(attendance));
             } catch (e) {
-                console.warn('Could not save data to localStorage');
+                console.warn('Could not save local data');
             }
         }
         
-        // Render players
         function renderPlayers() {
-            const playerList = document.getElementById('playerList');
+            var playerList = document.getElementById('playerList');
             playerList.innerHTML = '';
             
-            players.forEach(player => {
-                const isPresent = attendance[currentDate]?.[player.id] || false;
+            for (var i = 0; i < players.length; i++) {
+                var player = players[i];
+                var isPresent = attendance[currentDate] && attendance[currentDate][player.id];
                 
-                const playerDiv = document.createElement('div');
+                var playerDiv = document.createElement('div');
                 playerDiv.className = 'player';
                 
-                // Create player HTML
-                const playerHTML = `
-                    <div class="player-avatar">
-                        ${player.photo ? `<img src="${player.photo}" alt="${player.name}">` : '👤'}
-                    </div>
-                    <div class="player-info">
-                        <div class="player-name">${player.name}</div>
-                        <div class="player-level">${player.level}</div>
-                        ${player.phone ? `<div class="player-contact">📞 ${player.phone}</div>` : ''}
-                        ${player.email ? `<div class="player-contact">📧 ${player.email}</div>` : ''}
-                    </div>
-                    <div class="edit-buttons">
-                        <button class="edit-btn" onclick="showEditForm(${player.id})" title="Edit">✏️</button>
-                        <button class="delete-btn" onclick="deletePlayer(${player.id})" title="Delete">🗑️</button>
-                    </div>
-                    <button class="attendance-btn ${isPresent ? 'present' : 'absent'}" 
-                            onclick="toggleAttendance(${player.id})">
-                        ${isPresent ? '✓' : '✗'}
-                    </button>
-                `;
+                var avatarContent = player.photo ? 
+                    '<img src="' + player.photo + '" alt="' + player.name + '">' : 
+                    '👤';
                 
-                playerDiv.innerHTML = playerHTML;
+                var contactInfo = '';
+                if (player.phone) {
+                    contactInfo += '<div class="player-contact">📞 ' + player.phone + '</div>';
+                }
+                if (player.email) {
+                    contactInfo += '<div class="player-contact">📧 ' + player.email + '</div>';
+                }
                 
-                // Add edit form
-                const editForm = document.createElement('div');
+                playerDiv.innerHTML = 
+                    '<div class="player-main">' +
+                        '<div class="player-avatar">' + avatarContent + '</div>' +
+                        '<div class="player-info">' +
+                            '<div class="player-name">' + player.name + '</div>' +
+                            '<div class="player-level">' + player.level + '</div>' +
+                            contactInfo +
+                        '</div>' +
+                        '<div class="edit-buttons">' +
+                            '<button class="edit-btn" onclick="showEditForm(' + player.id + ')" title="Edit">✏️</button>' +
+                            '<button class="delete-btn" onclick="deletePlayer(' + player.id + ')" title="Delete">🗑️</button>' +
+                        '</div>' +
+                        '<button class="attendance-btn ' + (isPresent ? 'present' : 'absent') + '" onclick="toggleAttendance(' + player.id + ')">' +
+                            (isPresent ? '✓' : '✗') +
+                        '</button>' +
+                    '</div>';
+                
+                var editFormPhoto = player.photo ? 
+                    '<img src="' + player.photo + '" alt="' + player.name + '">' : 
+                    '📷';
+                
+                var editForm = document.createElement('div');
                 editForm.className = 'edit-form';
-                editForm.id = `edit-form-${player.id}`;
-                editForm.innerHTML = `
-                    <div class="photo-upload">
-                        <div class="photo-preview" id="edit-photo-preview-${player.id}">
-                            ${player.photo ? `<img src="${player.photo}" alt="${player.name}">` : '📷'}
-                        </div>
-                        <div>
-                            <label class="photo-upload-btn" for="edit-photo-${player.id}">Change Photo</label>
-                            <input type="file" accept="image/*" id="edit-photo-${player.id}" class="hidden" onchange="handlePhotoUpload(event, 'edit', ${player.id})">
-                        </div>
-                    </div>
-                    <input type="text" class="form-input" id="edit-name-${player.id}" value="${player.name}" placeholder="Player Name">
-                    <select class="form-input" id="edit-level-${player.id}">
-                        <option value="Beginner" ${player.level === 'Beginner' ? 'selected' : ''}>Beginner</option>
-                        <option value="Intermediate" ${player.level === 'Intermediate' ? 'selected' : ''}>Intermediate</option>
-                        <option value="Advanced" ${player.level === 'Advanced' ? 'selected' : ''}>Advanced</option>
-                    </select>
-                    <input type="tel" class="form-input" id="edit-phone-${player.id}" value="${player.phone}" placeholder="Phone Number">
-                    <input type="email" class="form-input" id="edit-email-${player.id}" value="${player.email}" placeholder="Email Address">
-                    <div class="form-buttons">
-                        <button class="btn-primary" onclick="savePlayer(${player.id})">Save</button>
-                        <button class="btn-secondary" onclick="hideEditForm(${player.id})">Cancel</button>
-                    </div>
-                `;
+                editForm.id = 'edit-form-' + player.id;
+                editForm.innerHTML = 
+                    '<div class="photo-upload">' +
+                        '<div class="photo-preview" id="edit-photo-preview-' + player.id + '">' + editFormPhoto + '</div>' +
+                        '<div>' +
+                            '<label class="photo-upload-btn" for="edit-photo-' + player.id + '">Change Photo</label>' +
+                            '<input type="file" accept="image/*" id="edit-photo-' + player.id + '" class="hidden" onchange="handlePhotoUpload(event, \'edit\', ' + player.id + ')">' +
+                        '</div>' +
+                    '</div>' +
+                    '<input type="text" class="form-input" id="edit-name-' + player.id + '" value="' + player.name + '" placeholder="Player Name">' +
+                    '<select class="form-input" id="edit-level-' + player.id + '">' +
+                        '<option value="Beginner"' + (player.level === 'Beginner' ? ' selected' : '') + '>Beginner</option>' +
+                        '<option value="Intermediate"' + (player.level === 'Intermediate' ? ' selected' : '') + '>Intermediate</option>' +
+                        '<option value="Advanced"' + (player.level === 'Advanced' ? ' selected' : '') + '>Advanced</option>' +
+                    '</select>' +
+                    '<input type="tel" class="form-input" id="edit-phone-' + player.id + '" value="' + player.phone + '" placeholder="Phone Number">' +
+                    '<input type="email" class="form-input" id="edit-email-' + player.id + '" value="' + player.email + '" placeholder="Email Address">' +
+                    '<div class="form-buttons">' +
+                        '<button class="btn-primary" onclick="savePlayer(' + player.id + ')">Save</button>' +
+                        '<button class="btn-secondary" onclick="hideEditForm(' + player.id + ')">Cancel</button>' +
+                    '</div>';
                 
                 playerDiv.appendChild(editForm);
                 playerList.appendChild(playerDiv);
-            });
+            }
         }
         
-        // Toggle attendance
         function toggleAttendance(playerId) {
             if (!attendance[currentDate]) {
                 attendance[currentDate] = {};
             }
             attendance[currentDate][playerId] = !attendance[currentDate][playerId];
-            saveData();
+            saveLocalData();
             renderPlayers();
             updateStats();
+            autoSync();
         }
         
-        // Update stats
         function updateStats() {
-            const todayAttendance = attendance[currentDate] || {};
-            const present = Object.values(todayAttendance).filter(Boolean).length;
-            const total = players.length;
-            const percentage = total > 0 ? Math.round((present / total) * 100) : 0;
+            var todayAttendance = attendance[currentDate] || {};
+            var present = 0;
+            for (var key in todayAttendance) {
+                if (todayAttendance[key]) present++;
+            }
+            var total = players.length;
+            var percentage = total > 0 ? Math.round((present / total) * 100) : 0;
             
-            document.getElementById('statsText').textContent = `${present}/${total} Present (${percentage}%)`;
+            document.getElementById('statsText').textContent = present + '/' + total + ' Present (' + percentage + '%)';
         }
         
-        // Show add form
         function showAddForm() {
             document.getElementById('addPlayerBtn').style.display = 'none';
             document.getElementById('addForm').classList.add('active');
         }
         
-        // Hide add form
         function hideAddForm() {
             document.getElementById('addPlayerBtn').style.display = 'block';
             document.getElementById('addForm').classList.remove('active');
-            
-            // Clear form
             document.getElementById('newPlayerName').value = '';
             document.getElementById('newPlayerLevel').value = 'Beginner';
             document.getElementById('newPlayerPhone').value = '';
@@ -589,16 +904,15 @@
             newPlayerPhoto = '';
         }
         
-        // Add player
         function addPlayer() {
-            const name = document.getElementById('newPlayerName').value.trim();
-            const level = document.getElementById('newPlayerLevel').value;
-            const phone = document.getElementById('newPlayerPhone').value.trim();
-            const email = document.getElementById('newPlayerEmail').value.trim();
+            var name = document.getElementById('newPlayerName').value.trim();
+            var level = document.getElementById('newPlayerLevel').value;
+            var phone = document.getElementById('newPlayerPhone').value.trim();
+            var email = document.getElementById('newPlayerEmail').value.trim();
             
             if (!name) return;
             
-            const newPlayer = {
+            var newPlayer = {
                 id: Date.now(),
                 name: name,
                 level: level,
@@ -608,202 +922,89 @@
             };
             
             players.push(newPlayer);
-            saveData();
+            saveLocalData();
             renderPlayers();
             updateStats();
             hideAddForm();
+            autoSync();
         }
         
-        // Show edit form
         function showEditForm(playerId) {
-            // Hide any other open edit forms
-            document.querySelectorAll('.edit-form').forEach(form => {
-                form.classList.remove('active');
-            });
-            
-            // Show this edit form
-            document.getElementById(`edit-form-${playerId}`).classList.add('active');
+            var forms = document.querySelectorAll('.edit-form');
+            for (var i = 0; i < forms.length; i++) {
+                forms[i].classList.remove('active');
+            }
+            document.getElementById('edit-form-' + playerId).classList.add('active');
             editingPlayerId = playerId;
         }
         
-        // Hide edit form
         function hideEditForm(playerId) {
-            document.getElementById(`edit-form-${playerId}`).classList.remove('active');
+            document.getElementById('edit-form-' + playerId).classList.remove('active');
             editingPlayerId = null;
         }
         
-        // Save player changes
         function savePlayer(playerId) {
-            const name = document.getElementById(`edit-name-${playerId}`).value.trim();
-            const level = document.getElementById(`edit-level-${playerId}`).value;
-            const phone = document.getElementById(`edit-phone-${playerId}`).value.trim();
-            const email = document.getElementById(`edit-email-${playerId}`).value.trim();
+            var name = document.getElementById('edit-name-' + playerId).value.trim();
+            var level = document.getElementById('edit-level-' + playerId).value;
+            var phone = document.getElementById('edit-phone-' + playerId).value.trim();
+            var email = document.getElementById('edit-email-' + playerId).value.trim();
             
             if (!name) return;
             
-            // Get the current photo from the preview
-            const photoPreview = document.getElementById(`edit-photo-preview-${playerId}`);
-            const photoImg = photoPreview.querySelector('img');
-            const photo = photoImg ? photoImg.src : '';
+            var photoPreview = document.getElementById('edit-photo-preview-' + playerId);
+            var photoImg = photoPreview.querySelector('img');
+            var photo = photoImg ? photoImg.src : '';
             
-            // Update player
-            const playerIndex = players.findIndex(p => p.id === playerId);
-            if (playerIndex !== -1) {
-                players[playerIndex] = {
-                    ...players[playerIndex],
-                    name: name,
-                    level: level,
-                    phone: phone,
-                    email: email,
-                    photo: photo
-                };
+            for (var i = 0; i < players.length; i++) {
+                if (players[i].id === playerId) {
+                    players[i].name = name;
+                    players[i].level = level;
+                    players[i].phone = phone;
+                    players[i].email = email;
+                    players[i].photo = photo;
+                    break;
+                }
             }
             
-            saveData();
+            saveLocalData();
             renderPlayers();
             updateStats();
+            autoSync();
         }
         
-        // Delete player
         function deletePlayer(playerId) {
             if (!confirm('Are you sure you want to delete this player?')) return;
             
-            // Remove player
-            players = players.filter(p => p.id !== playerId);
+            players = players.filter(function(p) { return p.id !== playerId; });
             
-            // Remove from attendance records
-            Object.keys(attendance).forEach(date => {
+            for (var date in attendance) {
                 delete attendance[date][playerId];
-            });
+            }
             
-            saveData();
+            saveLocalData();
             renderPlayers();
             updateStats();
+            autoSync();
         }
         
-        // Handle photo upload
-        function handlePhotoUpload(event, type, playerId = null) {
-            const file = event.target.files[0];
+        function handlePhotoUpload(event, type, playerId) {
+            var file = event.target.files[0];
             if (!file) return;
             
-            const reader = new FileReader();
+            var reader = new FileReader();
             reader.onload = function(e) {
-                const photoData = e.target.result;
+                var photoData = e.target.result;
                 
                 if (type === 'new') {
                     newPlayerPhoto = photoData;
-                    document.getElementById('newPlayerPhotoPreview').innerHTML = `<img src="${photoData}" alt="Preview">`;
+                    document.getElementById('newPlayerPhotoPreview').innerHTML = '<img src="' + photoData + '" alt="Preview">';
                 } else if (type === 'edit' && playerId) {
-                    document.getElementById(`edit-photo-preview-${playerId}`).innerHTML = `<img src="${photoData}" alt="Preview">`;
+                    document.getElementById('edit-photo-preview-' + playerId).innerHTML = '<img src="' + photoData + '" alt="Preview">';
                 }
             };
             reader.readAsDataURL(file);
         }
         
-        // Toggle backup panel
-        function toggleBackup() {
-            const panel = document.getElementById('backupPanel');
-            panel.classList.toggle('active');
-        }
-        
-        // Copy backup data
-        function copyBackupData() {
-            const data = {
-                players: players,
-                attendance: attendance,
-                exportDate: new Date().toISOString(),
-                version: '1.0'
-            };
-            
-            const dataStr = JSON.stringify(data, null, 2);
-            
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(dataStr).then(() => {
-                    showStatus('✅ Data copied to clipboard!');
-                }).catch(() => {
-                    fallbackCopy(dataStr);
-                });
-            } else {
-                fallbackCopy(dataStr);
-            }
-        }
-        
-        // Fallback copy method
-        function fallbackCopy(text) {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            textArea.style.position = 'fixed';
-            textArea.style.left = '-999999px';
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                document.execCommand('copy');
-                showStatus('✅ Data copied to clipboard!');
-            } catch (err) {
-                showStatus('❌ Please use Export button instead');
-            }
-            
-            document.body.removeChild(textArea);
-        }
-        
-        // Export data
-        function exportData() {
-            const data = {
-                players: players,
-                attendance: attendance,
-                exportDate: new Date().toISOString(),
-                version: '1.0'
-            };
-            
-            const dataStr = JSON.stringify(data, null, 2);
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(dataBlob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `squash-attendance-backup-${currentDate}.json`;
-            link.click();
-            URL.revokeObjectURL(url);
-        }
-        
-        // Import data
-        function importData(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    if (data.players && data.attendance) {
-                        players = data.players;
-                        attendance = data.attendance;
-                        saveData();
-                        renderPlayers();
-                        updateStats();
-                        showStatus('✅ Data imported successfully!');
-                    } else {
-                        showStatus('❌ Invalid backup file format');
-                    }
-                } catch (error) {
-                    showStatus('❌ Error reading backup file');
-                }
-            };
-            reader.readAsText(file);
-        }
-        
-        // Show status message
-        function showStatus(message) {
-            const statusEl = document.getElementById('statusMessage');
-            statusEl.textContent = message;
-            statusEl.classList.remove('hidden');
-            setTimeout(() => {
-                statusEl.classList.add('hidden');
-            }, 3000);
-        }
-        
-        // Initialize app when page loads
         window.addEventListener('load', init);
     </script>
 </body>
