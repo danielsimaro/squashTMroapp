@@ -15,6 +15,14 @@
       "phone": "021992592",
       "email": "daniel@dolar.ro",
       "photo": ""
+    },
+    {
+      "id": 1752349749618,
+      "name": "Daniel Sima",
+      "level": "Beginner",
+      "phone": "07248r529080",
+      "email": "fajkvajva@yahoo.com",
+      "photo": ""
     }
   ],
   "attendance": {
@@ -26,6 +34,6 @@
     "2025-07-10": {},
     "2025-07-19": {}
   },
-  "lastModified": 1752349730208,
+  "lastModified": 1752349750642,
   "version": "1.0"
 }
