@@ -1,41 +1,47 @@
 {
   "players": [
     {
-      "id": 1752351298176,
-      "name": "Test1",
+      "id": 1,
+      "name": "Alex Johnson",
       "level": "Beginner",
-      "phone": "test",
-      "email": "test",
+      "phone": "",
+      "email": "",
       "photo": ""
     },
     {
-      "id": 1752351303430,
-      "name": "test2",
-      "level": "Beginner",
-      "phone": "test",
-      "email": "test",
+      "id": 2,
+      "name": "Maria Silva",
+      "level": "Intermediate",
+      "phone": "",
+      "email": "",
       "photo": ""
     },
     {
-      "id": 1752351310167,
-      "name": "test3",
-      "level": "Beginner",
-      "phone": "test",
-      "email": "test",
+      "id": 3,
+      "name": "Tom Wilson",
+      "level": "Advanced",
+      "phone": "",
+      "email": "",
       "photo": ""
     },
     {
-      "id": 1752351386191,
-      "name": "Test4",
+      "id": 4,
+      "name": "Sarah Chen",
       "level": "Beginner",
-      "phone": "0744338233",
-      "email": "test@yahoo.com",
+      "phone": "",
+      "email": "",
+      "photo": ""
+    },
+    {
+      "id": 5,
+      "name": "David Brown",
+      "level": "Intermediate",
+      "phone": "",
+      "email": "",
       "photo": ""
     }
   ],
-  "attendance": {
-    "2025-07-12": {}
-  },
-  "lastModified": 1752351454153,
+  "attendance": {},
+  "lastModified": 1752351466437,
   "version": "1.0"
 }
